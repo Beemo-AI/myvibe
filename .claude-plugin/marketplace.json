@@ -1,0 +1,16 @@
+{
+  "name": "myvibe",
+  "owner": {
+    "name": "Beemo",
+    "email": "hey@beemo.ai"
+  },
+  "plugins": [
+    {
+      "name": "myvibe",
+      "source": ".",
+      "description": "AI-assisted talking-head video editing — silence cuts, take selection, demo overlays, Mino Lee captions.",
+      "version": "0.1.0",
+      "category": "video"
+    }
+  ]
+}

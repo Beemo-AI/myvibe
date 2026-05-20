@@ -1,0 +1,12 @@
+{
+  "name": "myvibe",
+  "version": "0.1.0",
+  "description": "AI-assisted talking-head video editing — silence cuts, take selection, demo overlays, Mino Lee captions. Mac-only (uses hevc_videotoolbox).",
+  "author": {
+    "name": "Beemo",
+    "email": "hey@beemo.ai"
+  },
+  "homepage": "https://github.com/Beemo-AI/myvibe",
+  "license": "MIT",
+  "keywords": ["video", "editing", "ffmpeg", "tiktok", "reels", "captions"]
+}
