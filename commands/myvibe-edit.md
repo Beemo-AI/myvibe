@@ -1,25 +1,43 @@
 ---
-description: Edit a video end-to-end given a story direction. Auto-analyzes, cuts silences, picks best takes, overlays demos, and burns in Mino Lee captions. Zero questions to the user.
-argument-hint: <story direction, e.g. "the story of how I built ADHD-friendly capture">
+description: Edit a video end-to-end given a story direction. Accepts an optional file path. Auto-analyzes, cuts silences, picks best takes, overlays demos, and burns in Mino Lee captions. Zero questions to the user.
+argument-hint: [path/to/video.mp4] <story direction>
 ---
 
 # /myvibe-edit — turnkey video edit
 
 You are running the `/myvibe-edit` command. Execute the entire myvibe workflow autonomously. **Do not ask the user any clarifying questions** unless a step physically cannot complete (missing source video, missing dependency). The user has signed off on the full pipeline by invoking this command.
 
-**User's story direction:** `$ARGUMENTS`
-
-If `$ARGUMENTS` is empty, report: *"Usage: /myvibe-edit <story direction>. Example: /myvibe-edit a 30-second hook about why traditional note apps fail ADHD brains."* and stop.
+**Raw arguments:** `$ARGUMENTS`
 
 ---
 
-## Step 1 — Locate source video
+## Step 0 — Parse arguments
+
+Two pieces can appear in `$ARGUMENTS`, in any order:
+- A **video file path** (ends in `.mp4`, `.mov`, `.MOV`, `.MP4`, `.mkv`, or `.webm`, OR contains a `/`)
+- A **story direction** (everything else)
+
+Parse them out:
+1. Tokenize `$ARGUMENTS` respecting quoted strings.
+2. Find the first token that looks like a video path. Expand `~` to `$HOME`. Strip surrounding quotes. If the token contains escaped spaces (`\ `), unescape them.
+3. If the path exists and resolves to a video file → that is `SRC`. Remove it from the arguments; the remainder is the story direction.
+4. If no path token is found → fall through to Step 1's cwd search; the full `$ARGUMENTS` is the story direction.
+
+If, after parsing, the story direction is empty → report:
+*"Usage: /myvibe-edit [path/to/video] <story direction>. Examples:*
+*  /myvibe-edit a 30-second hook about why traditional note apps fail ADHD brains*
+*  /myvibe-edit ~/Downloads/adhd.MOV story about ADHD-friendly capture"*
+and stop.
+
+All output files for this run live **alongside the source** (same directory as `SRC`), not in the current working directory. This way the user can invoke from anywhere and outputs land next to the input.
+
+## Step 1 — Locate source video (only if no path was passed)
 
 - Search the current working directory for `.MOV`, `.mp4`, `.mov`, `.MP4` files
 - Exclude anything in `desktop-app-demos/`, `mobile-demos/`, or any path containing `_clean`, `_overlay`, `_myvibe`, `_v2`, or `_final` (those are derivatives)
 - If exactly one candidate → use it
 - If multiple → pick the one with the most recent mtime
-- If zero → report *"No source video found in $(pwd). Place a .MOV or .mp4 file here and re-run."* and stop
+- If zero → report *"No source video found in $(pwd) and no path was passed. Either cd into a folder containing a video or paste a path into the command."* and stop
 - Save the path as `SRC` for the remaining steps
 
 ## Step 2 — Analyze (cached)
