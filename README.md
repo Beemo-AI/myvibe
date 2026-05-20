@@ -1,6 +1,8 @@
 # myvibe
 
-AI-assisted talking-head video editing for Claude Code. Cut silences, pick the best take, overlay product demos, and (optionally) burn in Mino Lee–style captions — all driven by Claude using the conventions in `SKILL.md`.
+**Get your story known with AI assisted editing and stand out in the AI slop era.**
+
+Talking-head video editing for Claude Code. Cut silences, pick the best take, overlay product demos, and burn in Mino Lee–style captions — all driven by Claude using the conventions in `SKILL.md`.
 
 > **Mac-only.** The renderer uses `hevc_videotoolbox`, Apple's hardware HEVC encoder.
 

@@ -1,7 +1,7 @@
 {
   "name": "myvibe",
   "version": "0.1.0",
-  "description": "AI-assisted talking-head video editing — silence cuts, take selection, demo overlays, Mino Lee captions. Mac-only (uses hevc_videotoolbox).",
+  "description": "Get your story known with AI assisted editing and stand out in the AI slop era",
   "author": {
     "name": "Beemo",
     "email": "hey@beemo.ai"
