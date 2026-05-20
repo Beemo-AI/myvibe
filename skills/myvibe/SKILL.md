@@ -5,6 +5,16 @@ description: Edit talking-head videos (TikTok / Reels / Shorts) with silence cut
 
 # Video editing workflow
 
+## Universal defaults — apply to every edit command
+
+These rules hold across `/myvibe-talking-head`, `/myvibe-storyteller`, and `/myvibe-product-demo` unless the command file explicitly overrides:
+
+- **Recursive directory traversal.** When given a directory, search subdirectories too (excluding `desktop-app-demos/`, `mobile-demos/`, `overlays/`, and derivative names `*_clean*`, `*_overlay*`, `*_myvibe*`).
+- **Dedupe takes across all sources.** If the same line appears in multiple files (or multiple times within one file), pick one winner via frame-sampling + the SKILL.md scoring criteria. Drop the rest.
+- **Cut silences per the Hard rules below.** Zero silence in any output. The `+0.5s` tail buffer is mandatory for non-final cuts.
+- **Video analysis on every key file is required.** Run `claude-video-vision:watch-video` on every source clip if no `<clip>-ANALYSIS.md` exists. Don't skip this even if it's slow on first run — subsequent runs reuse the cache.
+- **No focus → use everything.** If the user doesn't specify "focus on X" or a story direction that prunes content, incorporate all available source material. Don't be selective without a reason.
+
 ## File rules — read carefully
 
 When the user asks for further edits:
@@ -16,7 +26,7 @@ Tracking: at the end of each session, the latest output is whatever path was las
 
 ## Hard rules — DO NOT violate
 
-- **NEVER add captions / burned-in subtitles** to any output. Do not use the `subtitles` ffmpeg filter, do not generate SRT/ASS files for caption burn-in. Only add captions if the user explicitly asks for them in the current request. **Exception:** the `/myvibe-edit` slash command IS an explicit request for captions — that command always produces a captioned final.
+- **NEVER add captions / burned-in subtitles** to any output. Do not use the `subtitles` ffmpeg filter, do not generate SRT/ASS files for caption burn-in. Only add captions if the user explicitly asks for them in the current request. **Exception:** the `/myvibe-talking-head`, `/myvibe-storyteller`, and `/myvibe-product-demo` slash commands ARE explicit requests for captions — those commands always produce a captioned final.
 - **NEVER include silence** in the output. Not at the front, not at the end, not between cuts.
   - Cut START: EXACTLY at silence-end (`silence_start + duration`). Zero padding before speech.
   - Cut END: at the next `silence_start + ~0.5s`. The `+0.5s` is critical — `silencedetect` is too aggressive and clips trailing soft consonants (e.g. the "s" in "months", the "t" in "it"). Without this buffer, words get cut off mid-sound. The tail buffer is trailing word audio, not silence.

@@ -26,25 +26,40 @@ Or manually from inside Claude Code:
 
 ## Use
 
-The fast path is one command:
+Three explicit edit modes — pick the one that matches your input:
 
 ```
-/myvibe-edit [path/to/video-or-folder] <story direction>
+/myvibe-talking-head [path-or-folder] <optional direction>
 ```
+Speaker-on-camera clips only. Cuts silences, picks the best take of each line across all clips (subdirectories included), captions. No overlays.
 
-You can point it at:
-- **a single video file** — treats it as one source with multiple in-clip takes
-- **a folder of clips** — treats every video in the folder as a candidate take; picks the best one per phrase across all clips
-- **nothing** — uses the newest video in the current folder
+```
+/myvibe-storyteller <voiceover.mp3> [clips-folder] <optional focus>
+```
+Voiceover-driven. The audio is the timeline; silences in the voiceover are cut, visual clips are matched to each line and overlaid, captions burned from the cleaned transcript.
+
+```
+/myvibe-product-demo [folder] <optional direction>
+```
+Mixed input — talking-head clips, product demo screen recordings, and b-roll all in one folder. Auto-classifies each clip, builds the talking-head spine, overlays demos at semantically-matching phrases, captions.
+
+Not sure which to use? `/myvibe-edit <path>` inspects your input and recommends one.
+
+**Universal defaults** (apply to every mode):
+- Directory inputs are searched **recursively**
+- Duplicate takes are deduped across all clips
+- Silences are removed per the standard rules (zero silence, +0.5s tail buffer)
+- Every key file is video-analyzed before editing
+- No story direction or focus → uses all source material
 
 Examples:
 ```
-/myvibe-edit a 30-second hook about why traditional note apps fail ADHD brains
-/myvibe-edit ~/Downloads/adhd.MOV story about ADHD-friendly capture
-/myvibe-edit ~/Downloads/raw-takes/ a one-minute pitch for my note-taking app
+/myvibe-talking-head ~/Downloads/raw-takes/ a 30-second hook about ADHD note apps
+/myvibe-storyteller ~/Downloads/vo.mp3 ~/Downloads/broll/ focus on the funny moments
+/myvibe-product-demo ~/Downloads/launch-folder/ a one-minute pitch
 ```
 
-It analyzes every source clip, cuts silences, picks the best take of each line, overlays any matching product demos from sibling `desktop-app-demos/` / `mobile-demos/` folders, burns in Mino Lee captions, and writes `<stem>_myvibe.mp4` **in the input directory**. No questions asked.
+Outputs land in the input directory: `<stem>_myvibe.mp4`.
 
 For finer control you can also drive the skill in natural language:
 
@@ -62,7 +77,10 @@ Claude follows the workflow in `skills/myvibe/SKILL.md`:
 
 ## Commands
 
-- `/myvibe-edit <story direction>` — full pipeline, analyze → cut → overlay → caption → render
+- `/myvibe-talking-head [path] <direction>` — clean talking-head edits, no overlays
+- `/myvibe-storyteller <vo.mp3> [clips] <focus>` — voiceover spine + visual clips
+- `/myvibe-product-demo [folder] <direction>` — talking-head + auto-overlaid demos + b-roll
+- `/myvibe-edit [path]` — chooser; recommends which mode to run
 - `/myvibe-setup` — install ffmpeg, the font, and verify deps
 - `/myvibe-doctor` — verify the environment without installing
 
@@ -75,7 +93,10 @@ myvibe/
 │   └── marketplace.json
 ├── skills/myvibe/SKILL.md
 ├── commands/
-│   ├── myvibe-edit.md
+│   ├── myvibe-edit.md              # chooser
+│   ├── myvibe-talking-head.md
+│   ├── myvibe-storyteller.md
+│   ├── myvibe-product-demo.md
 │   ├── myvibe-setup.md
 │   └── myvibe-doctor.md
 ├── scripts/
