@@ -29,18 +29,22 @@ Or manually from inside Claude Code:
 The fast path is one command:
 
 ```
-/myvibe-edit [path/to/video] <story direction>
+/myvibe-edit [path/to/video-or-folder] <story direction>
 ```
 
-The video path is optional — if you don't pass one, it picks the newest video in the current folder. Examples:
+You can point it at:
+- **a single video file** — treats it as one source with multiple in-clip takes
+- **a folder of clips** — treats every video in the folder as a candidate take; picks the best one per phrase across all clips
+- **nothing** — uses the newest video in the current folder
 
+Examples:
 ```
 /myvibe-edit a 30-second hook about why traditional note apps fail ADHD brains
 /myvibe-edit ~/Downloads/adhd.MOV story about ADHD-friendly capture
-/myvibe-edit /Users/me/Videos/demo.mp4
+/myvibe-edit ~/Downloads/raw-takes/ a one-minute pitch for my note-taking app
 ```
 
-It analyzes the source, cuts silences, picks the best take of each line, overlays any matching product demos from sibling `desktop-app-demos/` / `mobile-demos/` folders, burns in Mino Lee captions, and writes `<source>_myvibe.mp4` **alongside the source**. No questions asked.
+It analyzes every source clip, cuts silences, picks the best take of each line, overlays any matching product demos from sibling `desktop-app-demos/` / `mobile-demos/` folders, burns in Mino Lee captions, and writes `<stem>_myvibe.mp4` **in the input directory**. No questions asked.
 
 For finer control you can also drive the skill in natural language:
 
