@@ -101,14 +101,20 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/mino_captions.py" "${WORK_DIR}/${stem}-ca
 
 ## Step 7 — Report
 
+Resolve the actual absolute path of the final file (no template placeholders, no `~`, no `${...}` — the literal path that exists on disk). Print it on its own line at the very end so it's easy to copy:
+
 ```
 ✓ Talking-head edit complete
   Sources:    <n> file(s) under <WORK_DIR>
-  Final:      <WORK_DIR>/<stem>_myvibe.mp4
   Duration:   <secs>s (from <orig>s, cut <pct>%)
   Takes:      <kept> kept of <total candidates>
   Render:     <total ffmpeg time>
+
+Final file:
+/absolute/path/to/<stem>_myvibe.mp4
 ```
+
+**Verify the path exists** with `ls -lh "$FINAL_PATH"` before printing. If the file is missing or 0 bytes, report the failure instead.
 
 ## Failures
 

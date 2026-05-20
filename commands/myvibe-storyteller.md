@@ -142,13 +142,19 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/mino_captions.py" "${WORK_DIR}/${VO_STEM}
 
 ## Step 7 — Report
 
+Resolve the actual absolute path of the final file (no template placeholders, no `~`, no `${...}`). Print it on its own line at the very end so it's easy to copy:
+
 ```
 ✓ Storyteller edit complete
-  Voiceover:  <VO_AUDIO> (<secs>s)
+  Voiceover:  <absolute path to source audio> (<secs>s)
   Clips used: <n unique> of <m available>
-  Final:      <WORK_DIR>/<VO_STEM>_myvibe.mp4
   Render:     <total ffmpeg time>
+
+Final file:
+/absolute/path/to/<VO_STEM>_myvibe.mp4
 ```
+
+**Verify the path exists** with `ls -lh "$FINAL_PATH"` before printing. If missing or 0 bytes, report the failure instead.
 
 ## Failures
 

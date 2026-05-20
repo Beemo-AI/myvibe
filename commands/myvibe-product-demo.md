@@ -83,19 +83,25 @@ Build the recipe JSON from the cut list (transcript + edited timeline positions)
 
 ## Step 9 — Report
 
+Resolve the actual absolute path of the final file (no template placeholders, no `~`, no `${...}`). Print it on its own line at the very end so it's easy to copy:
+
 ```
 ✓ Product-demo edit complete
   Sources:      <total> file(s) under <WORK_DIR>
     talking:    <n>
     demos:      <n>
     b-roll:     <n>
-  Final:        <WORK_DIR>/<stem>_myvibe.mp4
   Duration:     <secs>s
   Takes used:   <kept> of <total candidates>
   Demos used:   <matched> of <available>
   B-roll used:  <matched> of <available>
   Render:       <total ffmpeg time>
+
+Final file:
+/absolute/path/to/<stem>_myvibe.mp4
 ```
+
+**Verify the path exists** with `ls -lh "$FINAL_PATH"` before printing. If missing or 0 bytes, report the failure instead.
 
 ## Failures
 
