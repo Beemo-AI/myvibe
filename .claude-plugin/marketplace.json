@@ -7,10 +7,7 @@
   "plugins": [
     {
       "name": "myvibe",
-      "source": {
-        "source": "github",
-        "repo": "Beemo-AI/myvibe"
-      },
+      "source": "./",
       "description": "AI-assisted talking-head video editing — silence cuts, take selection, demo overlays, Mino Lee captions.",
       "version": "0.1.0",
       "category": "video"
