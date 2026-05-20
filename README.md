@@ -24,6 +24,21 @@ Or manually from inside Claude Code:
 
 ## Use
 
+The fast path is one command:
+
+```
+/myvibe-edit <story direction>
+```
+
+Example:
+```
+/myvibe-edit a 30-second hook about why traditional note apps fail ADHD brains
+```
+
+It picks the newest video in the current folder, analyzes it, cuts silences, picks the best take of each line, overlays any matching product demos from sibling `desktop-app-demos/` / `mobile-demos/` folders, burns in Mino Lee captions, and writes `<source>_myvibe.mp4`. No questions asked.
+
+For finer control you can also drive the skill in natural language:
+
 1. `cd` into a folder containing a source video (`.MOV`, `.mp4`).
 2. Open Claude Code.
 3. Ask: *"Edit `adhd.MOV` into a 30-second TikTok hook with the storytelling arc."*
@@ -38,6 +53,7 @@ Claude follows the workflow in `skills/myvibe/SKILL.md`:
 
 ## Commands
 
+- `/myvibe-edit <story direction>` — full pipeline, analyze → cut → overlay → caption → render
 - `/myvibe-setup` — install ffmpeg, the font, and verify deps
 - `/myvibe-doctor` — verify the environment without installing
 
@@ -50,6 +66,7 @@ myvibe/
 │   └── marketplace.json
 ├── skills/myvibe/SKILL.md
 ├── commands/
+│   ├── myvibe-edit.md
 │   ├── myvibe-setup.md
 │   └── myvibe-doctor.md
 ├── scripts/

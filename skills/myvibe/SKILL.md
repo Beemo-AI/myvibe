@@ -16,7 +16,7 @@ Tracking: at the end of each session, the latest output is whatever path was las
 
 ## Hard rules — DO NOT violate
 
-- **NEVER add captions / burned-in subtitles** to any output. Do not use the `subtitles` ffmpeg filter, do not generate SRT/ASS files for caption burn-in. Only add captions if the user explicitly asks for them in the current request.
+- **NEVER add captions / burned-in subtitles** to any output. Do not use the `subtitles` ffmpeg filter, do not generate SRT/ASS files for caption burn-in. Only add captions if the user explicitly asks for them in the current request. **Exception:** the `/myvibe-edit` slash command IS an explicit request for captions — that command always produces a captioned final.
 - **NEVER include silence** in the output. Not at the front, not at the end, not between cuts.
   - Cut START: EXACTLY at silence-end (`silence_start + duration`). Zero padding before speech.
   - Cut END: at the next `silence_start + ~0.5s`. The `+0.5s` is critical — `silencedetect` is too aggressive and clips trailing soft consonants (e.g. the "s" in "months", the "t" in "it"). Without this buffer, words get cut off mid-sound. The tail buffer is trailing word audio, not silence.
